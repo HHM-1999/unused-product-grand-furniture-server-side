@@ -28,12 +28,18 @@ async function run() {
         const categoryCollection = client.db("Furniture").collection("Categories");
         const bookingCollection = client.db("Furniture").collection("booking");
         const usersCollection = client.db("Furniture").collection("users");
+        const allproductCollection = client.db("Furniture").collection("allproducts");
 
 
 
         app.get('/products', async (req, res) => {
             const query = {};
             const result = await categoryCollection.find(query).toArray();
+            res.send(result);
+        })
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await categoryCollection.insertOne(product);
             res.send(result);
         })
 
@@ -62,6 +68,39 @@ async function run() {
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
+            res.send(result);
+        })
+        app.get('/users', async (req, res) => {
+            const query = {}
+            const result = await usersCollection.find(query).toArray();
+            res.send(result);
+
+        })
+        //delete
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            // console.log(id);
+            const query = { _id: ObjectId(id) }
+            const result = await usersCollection.deleteOne(query)
+            res.send(result);
+        })
+        //product
+        app.post('/allproducts', async (req, res) => {
+            const product = req.body
+            const result = await allproductCollection.insertOne(product)
+            res.send(result);
+
+        })
+        app.get('/allproducts', async (req, res) => {
+            console.log(req.query.email);
+            let query = {}
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+
+            }
+            const result = await allproductCollection.find(query).toArray();
             res.send(result);
         })
 
