@@ -146,7 +146,7 @@ async function run() {
             res.send(result)
         })
         app.get('/allproducts', async (req, res) => {
-            console.log(req.query.email);
+            // console.log(req.query.email);
             let query = {}
             if (req.query.email) {
                 query = {
