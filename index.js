@@ -132,7 +132,7 @@ async function run() {
                 }
             }
             const result = await allproductCollection.updateOne(query, updatedDoc);
-            res.status(403).send(result);
+            res.status(404).send(result);
 
         })
         app.get('/allproducts/home', async (req, res) => {
