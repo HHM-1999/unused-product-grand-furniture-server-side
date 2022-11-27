@@ -31,6 +31,7 @@ async function run() {
         const allproductCollection = client.db("Furniture").collection("allproducts");
 
 
+
         ///product
         app.get('/products', async (req, res) => {
             const query = {};
@@ -119,6 +120,29 @@ async function run() {
             const result = await allproductCollection.insertOne(product);
             res.send(result);
 
+        })
+        app.put('/allproducts/:id', async (req, res) => {
+            console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    role: 'available'
+                }
+            }
+            const result = await allproductCollection.updateOne(query, updatedDoc);
+            res.status(403).send(result);
+
+        })
+        app.get('/allproducts/home', async (req, res) => {
+            let query = {}
+            if (req.query.role) {
+                query = {
+                    role: req.query.role
+                }
+            }
+            const result = await allproductCollection.find(query).toArray()
+            res.send(result)
         })
         app.get('/allproducts', async (req, res) => {
             console.log(req.query.email);
