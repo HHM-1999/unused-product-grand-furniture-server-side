@@ -187,25 +187,7 @@ async function run() {
             res.status(403).send(result);
 
         })
-        // ================ admin all seller and buyer find out =============== //
-        // app.get('/admin/allseller', async (req, res) => {
-        //     // res.send('allseller')
-        //     let query = {}
-        //     if (req.query.role) {
-        //         query = { role: req.query.role }
-        //     }
-        //     const result = await usersCollection.find(query).toArray()
-        //     res.send(result);
-        // })
-        // app.get('/admin/allbuyer', async (req, res) => {
-        //     // res.send('allseller')
-        //     let query = {}
-        //     if (req.query.role) {
-        //         query = { role: req.query.role }
-        //     }
-        //     const result = await usersCollection.find(query).toArray()
-        //     res.send(result);
-        // })
+
         app.get('/user/:id', async (req, res) => {
             const id = req.params.id;
             const query = { email: id }
