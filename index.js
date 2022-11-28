@@ -72,6 +72,7 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             res.send(result);
         })
+
         app.put('/users/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) }
@@ -84,6 +85,17 @@ async function run() {
             const result = await usersCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         });
+
+        ///Admin 
+        // app.get('/users/admin/:id', async (req, res) => {
+        //     const email = req.params.id;
+        //     // res.send(email)
+        //     const filter = { _id: ObjectId(id) };
+        //     const user = await usersCollection.findOne(filter)
+        //     res.send({ isAdmin: user?.role === 'admin' })
+        // })
+
+
         //seller
         app.get('/users', async (req, res) => {
             let query = {}
@@ -96,10 +108,6 @@ async function run() {
             const role = await cursor.toArray();
             res.send(role);
         })
-
-
-
-
 
         app.get('/users', async (req, res) => {
             const query = {}
@@ -123,7 +131,7 @@ async function run() {
 
         })
         app.put('/allproducts/:id', async (req, res) => {
-            console.log(req.params.id);
+            // console.log(req.params.id);
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const updatedDoc = {
@@ -146,7 +154,7 @@ async function run() {
             res.send(result)
         })
         app.get('/allproducts', async (req, res) => {
-            console.log(req.query.email);
+            // console.log(req.query.email);
             let query = {}
             if (req.query.email) {
                 query = {
@@ -166,6 +174,45 @@ async function run() {
             res.send(result);
         })
         ////seller
+        app.put('/users/:id', async (req, res) => {
+            console.log(req.params.id);
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    verify: 'verify'
+                }
+            }
+            const result = await usersCollection.updateOne(query, updatedDoc);
+            res.status(403).send(result);
+
+        })
+        // ================ admin all seller and buyer find out =============== //
+        // app.get('/admin/allseller', async (req, res) => {
+        //     // res.send('allseller')
+        //     let query = {}
+        //     if (req.query.role) {
+        //         query = { role: req.query.role }
+        //     }
+        //     const result = await usersCollection.find(query).toArray()
+        //     res.send(result);
+        // })
+        // app.get('/admin/allbuyer', async (req, res) => {
+        //     // res.send('allseller')
+        //     let query = {}
+        //     if (req.query.role) {
+        //         query = { role: req.query.role }
+        //     }
+        //     const result = await usersCollection.find(query).toArray()
+        //     res.send(result);
+        // })
+        app.get('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { email: id }
+            const result = await usersCollection.findOne(query);
+            res.send(result)
+
+        })
 
 
 
